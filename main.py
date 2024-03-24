@@ -36,6 +36,13 @@ def create_drone():
     return jsonify(data), 201
 
 
+@app.route("/drones/delete_drone", methods=['DELETE'])
+def create_drone(drone_index):
+    index = drone_index
+    drones.pop(index)
+    return {"message": "successfully deleted"}, 201
+
+
 '''
 GET --> Obtain information
 POST --> Create information
