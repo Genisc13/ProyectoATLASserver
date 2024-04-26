@@ -1,54 +1,74 @@
-from flask import Flask, jsonify, request
-# Hola
-app = Flask(__name__)
+from fastapi import FastAPI
+import database as db
+from pydantic import BaseModel
+import uvicorn
+#import sqlite3
 
-drones = [
-    {
-        'id': 12534,
-        'name': 'drone1'
-    },
-    {
-        'id': 17623,
-        'name': 'drone2'
-    }
-]
+app = FastAPI()
 
-
-@app.route("/")
-def get_home():
-    return 'Home'
+class Drone(BaseModel):
+    name: str
+    chasis: str
+    brazos: int
+    helices: int
+    bateria: float
+    sensores: int
+    camara: str
 
 
-@app.route("/drones")
-def get_drones():
-    return jsonify(drones), 200
+@app.get("/")
+def root():
+    return 'esto va?'
+
+@app.post('/add_drones')
+def entrar_dron(drone:Drone):
+    try:
+        db.insertar_dron(drone.name,drone.chasis,drone.brazos,drone.helices,drone.bateria,drone.sensores,drone.camara)  
+        return('se ha insertado con exito') 
+    except Exception as e:
+        return f"Algo no ha ido bien: {str(e)}"
+    
+@app.get("/muestra_drones")
+def muestra_dron():
+    return db.mostrar_tabla()
+
+@app.delete('/eliminar_dron/{name}')
+def delete_dron(name:str):
+    try:
+        db.elmiminar_dron(name)
+        return f'Se ha eliminado con exito los drones con nombre: {name}'
+    except Exception as e:
+        return f"Algo no ha ido bien: {str(e)}"
+    
+
+@app.put("/update_dron/{name},{name_viejo}")
+def update_dron(name:str,name_viejo:str):
+    try:
+        db.modificar_nombre(name,name_viejo)
+        return 'Se ha cambiado con exito el nombre'
+    except Exception as e:
+        return f"Algo no ha ido bien: {str(e)}"
+    
 
 
-@app.route("/drones/<drone_index>")
-def get_one_drone(drone_index):
-    return jsonify(drones[drone_index]), 200
+#def setup():
+ #   conn = sqlite3.connect('DRONES.db')
+  #  c = conn.cursor()
 
+   # c.execute(''' CREATE TABLE IF NOT EXISTS drones (
+    #          name TEXT,
+     #         chasis TEXT,
+      #        brazos INTEGER,
+       #       helices INTEGER,
+        #      bateria REAL,
+         #     sensores INTEGER,
+          #    camara TEXT
+           #   )''')
+    
+  #  conn.commit()
+   # conn.close()
 
-@app.route("/drones/create_drone", methods=['POST'])
-def create_drone():
-    data = request.get_json()
-    drones.append(data)
-    return jsonify(data), 201
-
-
-@app.route("/drones/delete_drone", methods=['DELETE'])
-def create_drone(drone_index):
-    index = drone_index
-    drones.pop(index)
-    return {"message": "successfully deleted"}, 201
-
-
-'''
-GET --> Obtain information
-POST --> Create information
-PUT --> Update information
-DELETE --> Delete information
-'''
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    #setup()
+    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
