@@ -2,7 +2,7 @@ from fastapi import FastAPI
 import database as db
 from pydantic import BaseModel
 import uvicorn
-#import sqlite3
+import prueba_database
 
 app = FastAPI()
 
