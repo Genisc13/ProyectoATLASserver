@@ -71,7 +71,7 @@ def update_chasis(name:str,chasis:str):
     try:
         z = sql.modificar_chasis(chasis,name)
         if z == 0:
-            return 'Se ha cambiado con exito el nombre'
+            return 'Se ha cambiado con exito el chasis'
         else:
             return z
     except Exception as e:
@@ -82,7 +82,7 @@ def update_brazos(name:str,brazos:int):
     try:
         z = sql.modificar_brazos(brazos,name)
         if z == 0:
-            return 'Se ha cambiado con exito el nombre'
+            return 'Se ha cambiado con exito el numero de brazos'
         else:
             return z
     except Exception as e:
@@ -93,7 +93,7 @@ def update_helices(name:str,helices:int):
     try:
         z = sql.modificar_helices(helices,name)
         if z == 0:
-            return 'Se ha cambiado con exito el nombre'
+            return 'Se ha cambiado con exito el numero de helices'
         else:
             return z
     except Exception as e:
@@ -104,7 +104,7 @@ def update_bateria(name:str,bateria:float):
     try:
         z = sql.modificar_bateria(bateria,name)
         if z == 0:
-            return 'Se ha cambiado con exito el nombre'
+            return 'Se ha cambiado con exito la bateria'
         else:
             return z
     except Exception as e:
@@ -117,7 +117,7 @@ def update_sensores(name:str,sensores:int):
     try:
         z = sql.modificar_sensores(sensores,name)
         if z == 0:
-            return 'Se ha cambiado con exito el nombre'
+            return 'Se ha cambiado con exito el numero de sensores'
         else:
             return z
     except Exception as e:
@@ -128,7 +128,7 @@ def update_cam(name:str,camara:str):
     try:
         z = sql.modificar_camara(camara,name)
         if z == 0:
-            return 'Se ha cambiado con exito el nombre'
+            return 'Se ha cambiado con exito la camara'
         else:
             return z
     except Exception as e:

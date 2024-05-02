@@ -134,7 +134,7 @@ def modificar_camara(cam:str,name:str):
     try:
         conn = pymysql.connect(host='localhost', user='root',passwd='password',db='DRONES')
         c = conn.cursor() 
-        c.execute("UPDATE drones SET camara=? WHERE name=?",(cam,name))
+        c.execute("UPDATE drones SET camara=%s WHERE name=%s",(cam,name))
         conn.commit()
         conn.close()
         return 0
