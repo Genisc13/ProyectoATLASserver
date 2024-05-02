@@ -29,7 +29,7 @@ end
 # Unset irrelevant variables.
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV "/Users/iker/Desktop/Ingenieria Aeroespacial/ATLAS/FastAPI/fastapi-env"
+set -gx VIRTUAL_ENV "/Users/iker/Desktop/Ingenieria_Aeroespacial/ATLAS/ProyectoATLASserver/fastapi-env"
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/bin" $PATH

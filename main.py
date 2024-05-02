@@ -1,9 +1,17 @@
 from fastapi import FastAPI
-import database as db
+#import database as db
 from pydantic import BaseModel
 import uvicorn
-import prueba_database
+import prueba_database as sql
 
+'''TERMINAL
+Para crear un entorno virutal (Mac) -> python3 -m venv nombre_del_entorno_virtual
+Para eliminar el entorno virtual (Mac)-> rm -rf nombre_del_entorno_virtual
+para activarlo (estar en la terminal en la carpeta donde esta el entorno)(MAC) -> source nombre_entorno/bin/activate
+para iniciar el servidor-> uvicorn main:app --reload
+para parar el servidor control+c
+para salir del entorno -> deactivate
+'''
 app = FastAPI()
 
 class Drone(BaseModel):
@@ -23,52 +31,110 @@ def root():
 @app.post('/add_drones')
 def entrar_dron(drone:Drone):
     try:
-        db.insertar_dron(drone.name,drone.chasis,drone.brazos,drone.helices,drone.bateria,drone.sensores,drone.camara)  
-        return('se ha insertado con exito') 
+        x = sql.insertar_dron(drone.name,drone.chasis,drone.brazos,drone.helices,drone.bateria,drone.sensores,drone.camara)  
+        if x == 0:
+            return('se ha insertado con exito') 
+        else:
+            return x
     except Exception as e:
         return f"Algo no ha ido bien: {str(e)}"
     
 @app.get("/muestra_drones")
 def muestra_dron():
-    return db.mostrar_tabla()
+    return sql.mostrar_tabla()
 
 @app.delete('/eliminar_dron/{name}')
 def delete_dron(name:str):
     try:
-        db.elmiminar_dron(name)
-        return f'Se ha eliminado con exito los drones con nombre: {name}'
+        y = sql.elmiminar_dron(name)
+        if y == 0:
+            return f'Se ha eliminado con exito los drones con nombre: {name}'
+        else:
+            return y
     except Exception as e:
         return f"Algo no ha ido bien: {str(e)}"
     
 
-@app.put("/update_dron/{name},{name_viejo}")
+@app.put("/update_name/{name},{name_viejo}")
 def update_dron(name:str,name_viejo:str):
     try:
-        db.modificar_nombre(name,name_viejo)
-        return 'Se ha cambiado con exito el nombre'
+        z = sql.modificar_nombre(name,name_viejo)
+        if z == 0:
+            return 'Se ha cambiado con exito el nombre'
+        else:
+            return z
+    except Exception as e:
+        return f"Algo no ha ido bien: {str(e)}"
+    
+@app.put("/update_chasis/{name},{chasis}")
+def update_chasis(name:str,chasis:str):
+    try:
+        z = sql.modificar_chasis(chasis,name)
+        if z == 0:
+            return 'Se ha cambiado con exito el nombre'
+        else:
+            return z
+    except Exception as e:
+        return f"Algo no ha ido bien: {str(e)}"
+
+@app.put("/update_brazos/{name},{brazos}")
+def update_brazos(name:str,brazos:int):
+    try:
+        z = sql.modificar_brazos(brazos,name)
+        if z == 0:
+            return 'Se ha cambiado con exito el nombre'
+        else:
+            return z
+    except Exception as e:
+        return f"Algo no ha ido bien: {str(e)}"
+
+@app.put("/update_helices/{name},{helices}")
+def update_helices(name:str,helices:int):
+    try:
+        z = sql.modificar_helices(helices,name)
+        if z == 0:
+            return 'Se ha cambiado con exito el nombre'
+        else:
+            return z
+    except Exception as e:
+        return f"Algo no ha ido bien: {str(e)}"
+
+@app.put("/update_bateria/{name},{bateria}")
+def update_bateria(name:str,bateria:float):
+    try:
+        z = sql.modificar_bateria(bateria,name)
+        if z == 0:
+            return 'Se ha cambiado con exito el nombre'
+        else:
+            return z
     except Exception as e:
         return f"Algo no ha ido bien: {str(e)}"
     
 
 
-#def setup():
- #   conn = sqlite3.connect('DRONES.db')
-  #  c = conn.cursor()
-
-   # c.execute(''' CREATE TABLE IF NOT EXISTS drones (
-    #          name TEXT,
-     #         chasis TEXT,
-      #        brazos INTEGER,
-       #       helices INTEGER,
-        #      bateria REAL,
-         #     sensores INTEGER,
-          #    camara TEXT
-           #   )''')
+@app.put("/update_sensores/{name},{sensores}")
+def update_sensores(name:str,sensores:int):
+    try:
+        z = sql.modificar_sensores(sensores,name)
+        if z == 0:
+            return 'Se ha cambiado con exito el nombre'
+        else:
+            return z
+    except Exception as e:
+        return f"Algo no ha ido bien: {str(e)}"
     
-  #  conn.commit()
-   # conn.close()
+@app.put("/update_camara/{name},{camara}")
+def update_cam(name:str,camara:str):
+    try:
+        z = sql.modificar_camara(camara,name)
+        if z == 0:
+            return 'Se ha cambiado con exito el nombre'
+        else:
+            return z
+    except Exception as e:
+        return f"Algo no ha ido bien: {str(e)}"
 
-
+#Esto es para que una vez se incia con el reload se vaya actualizando y no haya que meter en terminal el reload 
+#cada vez que hace un cambio.
 if __name__ == "__main__":
-    #setup()
     uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
