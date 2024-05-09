@@ -57,9 +57,14 @@ def elmiminar_dron(name:str):
         conn = pymysql.connect(host='localhost', user='root',passwd='password',db='DRONES')
         c = conn.cursor() 
         c.execute("DELETE FROM drones WHERE name = %s",(name,))
-        conn.commit()
-        conn.close()
-        return 0
+        if c.rowcount == 0:
+            conn.commit()
+            conn.close()
+            return ("No hay ningún dron guardado con ese nombre.")
+        else:
+            conn.commit()
+            conn.close()
+            return 0
     except Exception as e:
         return f'Ha habido algun error en la base de datos: {str(e)}'
 
