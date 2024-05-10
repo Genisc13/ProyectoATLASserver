@@ -13,6 +13,7 @@ para parar el servidor control+c
 para salir del entorno -> deactivate
 '''
 app = FastAPI()
+sql.initdb()
 
 class Drone(BaseModel):
     name: str
