@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 # import database as db
 from pydantic import BaseModel
 import uvicorn
@@ -55,7 +55,8 @@ def delete_dron(name: str):
         if y == 0:
             return f'Se ha eliminado con exito los drones con nombre: {name}'
         else:
-            return y
+            #raise HTTPException(status_code = 404, detail='Item not found')
+            return y,HTTPException(status_code = 404, detail='Item not found')
     except Exception as e:
         return f"Algo no ha ido bien: {str(e)}"
 
