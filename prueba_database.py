@@ -38,6 +38,11 @@ class Database:
                   Sensores INTEGER,
                   camara TEXT
                   )''')
+        c.execute(''' CREATE TABLE IF NOT EXISTS usuarios (
+                  nombre TEXT,
+                  password TEXT,
+                  mail TEXT
+                  )''')
         self.conn.commit()
         self.conn.close()
 
@@ -54,7 +59,19 @@ class Database:
             return 0
         except Exception as e:
             return f'Ha habido algun error en la base de datos: {str(e)}'
-
+    def insertar_usuarios(self, name: str, password: str, mail: str):
+        try:
+            self.conn = pymysql.connect(host=self.database_host, user=self.database_user, passwd=self.database_password,
+                                        database=self.database_name)
+            c = self.conn.cursor()
+            c.execute("INSERT INTO usuarios VALUES (%s, %s, %s)",
+                      (name, password, mail))
+            self.conn.commit()
+            self.conn.close()
+            return 0
+        except Exception as e:
+            return f'Ha habido algun error en la base de datos: {str(e)}'
+        
     def mostrar_tabla(self):
         self.conn = pymysql.connect(host=self.database_host, user=self.database_user, passwd=self.database_password,
                                     database=self.database_name)

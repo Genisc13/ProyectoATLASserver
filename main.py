@@ -24,7 +24,11 @@ class Drone(BaseModel):
     sensores: int
     camara: str
 
-
+class Usuario(BaseModel):
+    name: str
+    password: str
+    mail: str
+    
 @app.get("/")
 def root():
     return 'esto va?'
@@ -41,7 +45,17 @@ def entrar_dron(drone: Drone):
             return x
     except Exception as e:
         return f"Algo no ha ido bien: {str(e)}"
-
+    
+@app.post('/add_usuario')
+def entrar_dron(usuario: Usuario):
+    try:
+        x = sql.insertar_usuarios(usuario.name, usuario.password, usuario.mail)
+        if x == 0:
+            return ('se ha insertado con exito')
+        else:
+            return x
+    except Exception as e:
+        return f"Algo no ha ido bien: {str(e)}"
 
 @app.get("/muestra_drones")
 def muestra_dron():
