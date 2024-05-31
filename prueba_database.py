@@ -25,7 +25,7 @@ class Database:
         self.database_name = name
         self.conn = pymysql.connect(host=self.database_host, user=self.database_user, passwd=self.database_password)
         c = self.conn.cursor()
-        c.execute(f"CREATE DATABASE ${self.database_name}")
+        c.execute(f"CREATE DATABASE IF NOT EXISTS {self.database_name}")
         self.conn = pymysql.connect(host=self.database_host, user=self.database_user, passwd=self.database_password,
                                     database=self.database_name)
         c = self.conn.cursor()
@@ -169,3 +169,6 @@ class Database:
 
     # insertar_dron('Prueba','carbono',4,4,67.6,8,'4k')
     # mostrar_tabla()
+
+#var = Database("localhost", "root", "password", "ATLAS_DB")
+#var.insertar_dron('Prueba', 'carbono', 4, 4, 67.6, 8, '4k')
