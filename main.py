@@ -47,7 +47,7 @@ def entrar_dron(drone: Drone):
         return f"Algo no ha ido bien: {str(e)}"
     
 @app.post('/add_usuario')
-def entrar_dron(usuario: Usuario):
+def entrar_usiario(usuario: Usuario):
     try:
         x = sql.insertar_usuarios(usuario.name, usuario.password, usuario.mail)
         if x == 0:
