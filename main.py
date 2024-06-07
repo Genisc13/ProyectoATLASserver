@@ -56,6 +56,19 @@ def entrar_usiario(usuario: Usuario):
             return x
     except Exception as e:
         return f"Algo no ha ido bien: {str(e)}"
+    
+@app.get("/log_in")
+def comprobar_usuario(name:str,contraseña:str):
+    try:
+        x = sql.check_usuario(name,contraseña)
+        if x == "El usuario es correcto puede entrar":
+            return x
+        elif x == "El nombre o la contraseña estan mal":
+            raise HTTPException(status_code = 400, detail='Bad Request')
+        else:
+            return x
+    except Exception as e:
+        return f"Algo no ha ido bien: {str(e)}"
 
 @app.get("/muestra_drones")
 def muestra_dron():
@@ -69,8 +82,8 @@ def delete_dron(name: str):
         if y == 0:
             return f'Se ha eliminado con exito los drones con nombre: {name}'
         else:
-            #raise HTTPException(status_code = 404, detail='Item not found')
-            return y,HTTPException(status_code = 404, detail='Item not found')
+            raise HTTPException(status_code = 404, detail='Item not found')
+            #return y,HTTPException(status_code = 404, detail='Item not found')
     except Exception as e:
         return f"Algo no ha ido bien: {str(e)}"
 

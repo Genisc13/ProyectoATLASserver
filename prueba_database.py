@@ -59,6 +59,22 @@ class Database:
             return 0
         except Exception as e:
             return f'Ha habido algun error en la base de datos: {str(e)}'
+        
+    def check_usuario(self,name:str,constraseña:str):
+        try:
+            self.conn = pymysql.connect(host=self.database_host, user=self.database_user, passwd=self.database_password,
+                                        database=self.database_name)
+            c = self.conn.cursor()
+            c.execute("SELECT * FROM usuarios WHERE name = %s",(name,))
+            result = c.fetchall()
+            if result(1,1) == name and result(1,2) == constraseña:
+                return "El usuario es correcto puede entrar"
+            else:
+                return "El nombre o la contraseña estan mal"
+        except Exception as e:
+            return f'Ha habido algun error en la base de datos: {str(e)}'
+        
+
     def insertar_usuarios(self, name: str, password: str, mail: str):
         try:
             self.conn = pymysql.connect(host=self.database_host, user=self.database_user, passwd=self.database_password,
