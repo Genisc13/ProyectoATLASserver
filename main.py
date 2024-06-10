@@ -2,7 +2,7 @@ from fastapi import FastAPI, HTTPException
 # import database as db
 from pydantic import BaseModel
 import uvicorn
-from prueba_database import Database as Sql
+from prueba_database import Database as sql
 
 '''TERMINAL
 Para crear un entorno virutal (Mac) -> python3 -m venv nombre_del_entorno_virtual
@@ -175,5 +175,5 @@ def update_cam(name: str, camara: str):
 # Esto es para que una vez se incia con el reload se vaya actualizando y no haya que meter en terminal el reload
 # cada vez que hace un cambio.
 if __name__ == "__main__":
-    sql = Sql("localhost", "root", "password", "ATLAS_DB")
+    sql = sql("localhost", "root", "password", "ATLAS_DB")
     uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
