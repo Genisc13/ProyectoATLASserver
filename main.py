@@ -13,7 +13,7 @@ para parar el servidor control+c
 para salir del entorno -> deactivate
 '''
 app = FastAPI()
-
+sql = Sql("localhost", "root", "password", "atlas_db")
 
 class Drone(BaseModel):
     name: str
@@ -47,15 +47,15 @@ def entrar_dron(drone: Drone):
         return f"Algo no ha ido bien: {str(e)}"
     
 @app.post('/add_usuario')
-def entrar_usiario(usuario: Usuario):
+def entrar_usiario(data: Usuario):
     try:
-        x = sql.insertar_usuarios(usuario.name, usuario.password, usuario.mail)
+        x = sql.insertar_usuarios(data.name, data.password, data.mail)
         if x == 0:
             return ('se ha insertado con exito')
         else:
-            return x
+            raise HTTPException(status_code = 400, detail='Bad Request')
     except Exception as e:
-        return f"Algo no ha ido bien: {str(e)}"
+         raise HTTPException(status_code = 500, detail=(f"Algo no ha ido bien: {str(e)}" ))
     
 @app.get("/log_in")
 def comprobar_usuario(name:str,contraseña:str):
@@ -175,5 +175,5 @@ def update_cam(name: str, camara: str):
 # Esto es para que una vez se incia con el reload se vaya actualizando y no haya que meter en terminal el reload
 # cada vez que hace un cambio.
 if __name__ == "__main__":
-    sql = Sql("localhost", "root", "password", "ATLAS_DB")
+    
     uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)

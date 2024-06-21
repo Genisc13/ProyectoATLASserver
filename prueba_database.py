@@ -80,12 +80,15 @@ class Database:
             self.conn = pymysql.connect(host=self.database_host, user=self.database_user, passwd=self.database_password,
                                         database=self.database_name)
             c = self.conn.cursor()
-            x = c.execute("SELECT COUNT(*) FROM usuarios WHERE name = %s",(name,))
+            
+            x = c.execute('SELECT * FROM usuarios WHERE nombre =" %s"',(name,))
+            
             if 0 < x:
                 return "Ya existe una cuenta con ese nombre"
             else:
-                c.execute("INSERT INTO usuarios VALUES (%s, %s, %s)",
+                c.execute('INSERT INTO usuarios VALUES ("%s", "%s", "%s")',
                         (name, password, mail))
+                
                 self.conn.commit()
                 self.conn.close()
                 return 0
