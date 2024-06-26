@@ -68,7 +68,8 @@ def comprobar_usuario(name:str,contraseña:str):
         else:
             return x
     except Exception as e:
-        return f"Algo no ha ido bien: {str(e)}"
+        raise HTTPException(status_code = 500, detail=(f"Algo no ha ido bien: {str(e)}" ))
+        #return f"Algo no ha ido bien: {str(e)}"
 
 @app.get("/muestra_drones")
 def muestra_dron():

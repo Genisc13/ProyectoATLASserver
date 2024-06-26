@@ -65,9 +65,11 @@ class Database:
             self.conn = pymysql.connect(host=self.database_host, user=self.database_user, passwd=self.database_password,
                                         database=self.database_name)
             c = self.conn.cursor()
-            c.execute("SELECT * FROM usuarios WHERE name = %s",(name,))
+            c.execute('SELECT * FROM usuarios WHERE nombre =" %s"',(name,))
+            
             result = c.fetchall()
-            if result(1,1) == name and result(1,2) == constraseña:
+            print(result)
+            if result[0] == name and result[1] == constraseña:
                 return "El usuario es correcto puede entrar"
             else:
                 return "El nombre o la contraseña estan mal"
@@ -210,5 +212,6 @@ class Database:
     # insertar_dron('Prueba','carbono',4,4,67.6,8,'4k')
     # mostrar_tabla()
 
-#var = Database("localhost", "root", "password", "ATLAS_DB")
-#var.insertar_dron('Prueba', 'carbono', 4, 4, 67.6, 8, '4k')
+#var = Database("localhost", "root", "password", "atlas_db")
+#var.insertar_usuarios("'iker'", 'pas', 'algo@algo')
+#var.check_usuario('str','str')
