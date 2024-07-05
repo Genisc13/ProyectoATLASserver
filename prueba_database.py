@@ -67,8 +67,8 @@ class Database:
             c = self.conn.cursor()
             c.execute('SELECT * FROM usuarios WHERE nombre ="'"%s"'"',(name,))
             
-            result = c.fetchall()
-            print(result)
+            result = c.fetchone()
+
             if result[0] == name and result[1] == constraseña:
                 return "El usuario es correcto puede entrar"
             else:
@@ -212,6 +212,6 @@ class Database:
     # insertar_dron('Prueba','carbono',4,4,67.6,8,'4k')
     # mostrar_tabla()
 
-#var = Database("localhost", "root", "password", "atlas_db")
+var = Database("localhost", "root", "password", "atlas_db")
 #var.insertar_usuarios("'iker'", 'pas', 'algo@algo')
-#var.check_usuario('str','str')
+var.check_usuario('ikr','str')
