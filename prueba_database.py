@@ -65,7 +65,7 @@ class Database:
             self.conn = pymysql.connect(host=self.database_host, user=self.database_user, passwd=self.database_password,
                                         database=self.database_name)
             c = self.conn.cursor()
-            c.execute('SELECT * FROM usuarios WHERE nombre =" %s"',(name,))
+            c.execute('SELECT * FROM usuarios WHERE nombre ="'"%s"'"',(name,))
             
             result = c.fetchall()
             print(result)
