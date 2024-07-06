@@ -65,7 +65,7 @@ class Database:
             self.conn = pymysql.connect(host=self.database_host, user=self.database_user, passwd=self.database_password,
                                         database=self.database_name)
             c = self.conn.cursor()
-            c.execute('SELECT * FROM usuarios WHERE nombre ="'"%s"'"',(name,))
+            c.execute('SELECT * FROM usuarios WHERE nombre = %s',(name,))
             
             result = c.fetchone()
 
@@ -212,6 +212,6 @@ class Database:
     # insertar_dron('Prueba','carbono',4,4,67.6,8,'4k')
     # mostrar_tabla()
 
-var = Database("localhost", "root", "password", "atlas_db")
+#var = Database("localhost", "root", "password", "atlas_db")
 #var.insertar_usuarios("'iker'", 'pas', 'algo@algo')
-var.check_usuario('ikr','str')
+#var.check_usuario("'ikr'","'str'")
